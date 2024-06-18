@@ -1,35 +1,51 @@
-# ExamBackend Application
+# Exam frontend
 
-Applikationnen er udviklet af Viktor Rattleff som en del af Programmering 2 24 timers eksamen.
+## KEA Datamatiker - 3rd Semester Programming 2 Exam, June 2024 (24-hour)
 
-<hr/>
+### Segments
 
-## Indholdsfortegnelse
-- [Introduktion](#introduktion)
 - [Installation](#installation)
+- [Running the application](#running-the-application) 
 
-## Introduktion
+### Installation
 
-Dette projekt er en frontend applikation designet til at demonstrere de færdigheder og teknikker, der er lært i Programmering 2 kurset.
+1. Clone the repository
 
-## Installation
+```bash
+git clone https://github.com/VARattleff/exam-frontend
+```
 
-Følg disse trin for at installere og køre applikationen lokalt:
+2. Enter the directory
 
-1. Klon dette repository:
-   ```bash
-   git clone https://github.com/VARattleff/exam-frontend
-   ```
+```bash
+cd exam-frontend
+```
 
-2. Naviger til projektmappen:
-   ```bash
-   cd exam-frontend
+3. Install dependencies
 
-   ```
-3. Installer afhængigheder og kør applikationen:
-   ```bash
-   npm install
-   npm run dev
-   ````
+```bash
+npm install
+```
 
-[Applikationen kører nu på `http://localhost:5173/` exam-frontend](http://localhost:5173/)
+### running the application
+
+Run the server in development mode
+
+```bash
+npm run dev
+```
+
+[Now the frontend should be running on `http://localhost:5173/`](http://localhost:5173/)
+
+
+
+
+
+
+
+
+
+
+
+
+
