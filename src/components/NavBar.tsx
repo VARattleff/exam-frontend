@@ -12,6 +12,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ActivitiesIcon from "@mui/icons-material/LocalActivity";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Navbar component.
+ */
 export default function Navbar() {
     const theme = useTheme();
     const navigate = useNavigate();

@@ -3,6 +3,9 @@ import useTest from "../hooks/useTest.tsx";
 
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 
+/**
+ * TestContainer component.
+ */
 function TestContainer() {
     const { testData, isLoading: isTestDataLoading } = useTest();
 

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button, Typography, Box, Grid, Paper } from "@mui/material";
 
+/**
+ * FallBack component.
+ */
 function FallBack() {
     return (
         <>

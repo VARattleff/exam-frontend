@@ -1,8 +1,15 @@
 import { useSnackbar } from "notistack";
 
+/**
+ * Custom hook to handle errors
+ */
 function useError() {
     const { enqueueSnackbar } = useSnackbar();
 
+    /**
+     * Handle an error
+     * @param e
+     */
     const handleError = (e: any) => {
         console.error(e);
         enqueueSnackbar(`An error occurred:\n${e.message}`, {

@@ -4,6 +4,9 @@ import Api from "../utils/Api.tsx";
 import useSucces from "./useSucces.tsx";
 import useError from "./useError.tsx";
 
+/**
+ * Custom hook to CRUD test data
+ */
 function useTest() {
     const { showSuccess } = useSucces();
     const { handleError } = useError();

@@ -1,5 +1,8 @@
 import CircularProgress from "@mui/material/CircularProgress";
 
+/**
+ * LoadingSpinner component.
+ */
 function LoadingSpinner() {
     return (
         <div

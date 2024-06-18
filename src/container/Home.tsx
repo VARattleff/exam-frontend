@@ -9,6 +9,9 @@ import {
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
+/**
+ * Home component.
+ */
 function Home() {
     return (
         <>

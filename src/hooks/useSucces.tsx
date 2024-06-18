@@ -1,8 +1,15 @@
 import { useSnackbar } from "notistack";
 
-function useSucces() {
+/**
+ * Custom hook to show success messages using notistack
+ */
+function useSuccess() {
     const { enqueueSnackbar } = useSnackbar();
 
+    /**
+     * Show a success message
+     * @param message - The success message to display
+     */
     const showSuccess = (message: string) => {
         enqueueSnackbar(message, {
             variant: "success",
@@ -14,4 +21,4 @@ function useSucces() {
     return { showSuccess };
 }
 
-export default useSucces;
+export default useSuccess;

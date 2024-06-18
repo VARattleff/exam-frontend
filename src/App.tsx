@@ -8,6 +8,9 @@ import TestContainer from "./container/TestContainer.tsx";
 import FallBack from "./container/FallBack.tsx";
 import { SnackbarProvider } from "notistack";
 
+/**
+ * App component.
+ */
 function App() {
     return (
         <>
