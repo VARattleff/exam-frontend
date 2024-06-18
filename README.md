@@ -10,7 +10,7 @@ Applikationnen er udviklet af Viktor Rattleff som en del af Programmering 2 24 t
 
 ## Introduktion
 
-Dette projekt er en backend applikation designet til at demonstrere de færdigheder og teknikker, der er lært i Programmering 2 kurset.
+Dette projekt er en frontend applikation designet til at demonstrere de færdigheder og teknikker, der er lært i Programmering 2 kurset.
 
 ## Installation
 
@@ -20,7 +20,6 @@ Følg disse trin for at installere og køre applikationen lokalt:
    ```bash
    git clone https://github.com/VARattleff/exam-frontend
    ```
-
 
 2. Naviger til projektmappen:
    ```bash
@@ -33,4 +32,4 @@ Følg disse trin for at installere og køre applikationen lokalt:
    npm run dev
    ````
 
-Applikationen kører nu på `http://localhost:5173/`.# exam-frontend
+[Applikationen kører nu på `http://localhost:5173/` exam-frontend](http://localhost:5173/)
