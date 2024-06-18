@@ -21,6 +21,7 @@ Følg disse trin for at installere og køre applikationen lokalt:
    git clone https://github.com/VARattleff/exam-frontend
    ```
 
+
 2. Naviger til projektmappen:
    ```bash
    cd exam-frontend
