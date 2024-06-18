@@ -7,7 +7,8 @@ function useSucces() {
         enqueueSnackbar(message, {
             variant: "success",
             preventDuplicate: true,
-            persist: false, });
+            persist: false
+        });
     };
 
     return { showSuccess };

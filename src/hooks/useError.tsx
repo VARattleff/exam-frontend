@@ -8,7 +8,7 @@ function useError() {
         enqueueSnackbar(`An error occurred:\n${e.message}`, {
             variant: "error",
             preventDuplicate: true,
-            persist: false,
+            persist: false
         });
         throw e;
     };

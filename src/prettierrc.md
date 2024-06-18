@@ -8,11 +8,11 @@ The current Prettier configuration is as follows:
 
 ```json
 {
-  "trailingComma": "none",
-  "tabWidth": 4,
-  "semi": true,
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false
+    "trailingComma": "none",
+    "tabWidth": 4,
+    "semi": true,
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false
 }
 ```
 
