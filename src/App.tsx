@@ -12,6 +12,7 @@ import { SnackbarProvider } from "notistack";
  * App component.
  */
 function App() {
+    console.log("%cAll rights reserved Viktor A. Rattleff.","color: yellow; font-size: 10px");
     return (
         <>
             <SnackbarProvider maxSnack={3}>
