@@ -6,6 +6,7 @@
 
 - [Installation](#installation)
 - [Running the application](#running-the-application) 
+- [Prettier Configuration](#Prettier-Configuration ) 
 
 ### Installation
 
@@ -27,7 +28,7 @@ cd exam-frontend
 npm install
 ```
 
-### running the application
+### Running the application
 
 Run the server in development mode
 
@@ -37,6 +38,9 @@ npm run dev
 
 [Now the frontend should be running on `http://localhost:5173/`](http://localhost:5173/)
 
+### Prettier Configuration 
+
+[Link to prettierrc.md](./src/prettierrc.md)
 
 
 
