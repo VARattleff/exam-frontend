@@ -41,49 +41,51 @@ function CreateTestDataDialog({
     };
 
     return (
-        <Dialog
-            open={open}
-            onClose={handleClose}
-        >
-            <DialogTitle>Create testdata</DialogTitle>
-            <br />
-            <DialogContent>
-                <Grid
-                    container
-                    spacing={2}
-                >
+        <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+            >
+                <DialogTitle>Create testdata</DialogTitle>
+                <br />
+                <DialogContent>
                     <Grid
-                        item
-                        xs={12}
+                        container
+                        spacing={2}
                     >
-                        <TextField
-                            label="Name"
-                            fullWidth
-                            variant="outlined"
-                            name="name"
-                            onChange={(e) => handleSetFormData(e)}
-                        />
+                        <Grid
+                            item
+                            xs={6}
+                        >
+                            <TextField
+                                label="Name"
+                                fullWidth
+                                variant="outlined"
+                                name="name"
+                                onChange={(e) => handleSetFormData(e)}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={6}
+                        >
+                            <TextField
+                                label="Age"
+                                fullWidth
+                                type="number"
+                                variant="outlined"
+                                name="age"
+                                onChange={(e) => handleSetFormData(e)}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid
-                        item
-                        xs={6}
-                    >
-                        <TextField
-                            label="Age"
-                            fullWidth
-                            type="number"
-                            variant="outlined"
-                            name="age"
-                            onChange={(e) => handleSetFormData(e)}
-                        />
-                    </Grid>
-                </Grid>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleUpdate}>Update</Button>
-            </DialogActions>
-        </Dialog>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleUpdate}>Update</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 
