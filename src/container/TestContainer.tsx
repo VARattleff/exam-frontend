@@ -4,6 +4,14 @@ import useTest from "../hooks/useTest.tsx";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import { useState } from "react";
 import CreateTestDataDialog from "../components/CreateTestDataDialog.tsx";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 
 /**
  * TestContainer component.
@@ -41,13 +49,37 @@ function TestContainer() {
                 >
                     Create test data
                 </Button>
-                {testData &&
-                    testData.map((test, index) => (
-                        <div key={index}>
-                            <h2>{test.name}</h2>
-                            <p>{test.age}</p>
-                        </div>
-                    ))}
+
+                <TableContainer component={Paper}>
+                    <Table
+                        sx={{ minWidth: 650 }}
+                        aria-label="simple table"
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell size="small">Name </TableCell>
+                                <TableCell size="small"> age </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {testData &&
+                                testData.map((data, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell
+                                            size="small"
+                                            component="th"
+                                            scope="row"
+                                        >
+                                            {data.name}
+                                        </TableCell>
+                                        <TableCell size="small">
+                                            {data.age}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Paper>
             <CreateTestDataDialog
                 open={open}

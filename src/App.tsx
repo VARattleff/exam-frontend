@@ -7,12 +7,19 @@ import Home from "./container/Home.tsx";
 import TestContainer from "./container/TestContainer.tsx";
 import FallBack from "./container/FallBack.tsx";
 import { SnackbarProvider } from "notistack";
+import { useEffect } from "react";
 
 /**
  * App component.
  */
 function App() {
-    console.log("%cAll rights reserved Viktor A. Rattleff.","color: yellow; font-size: 10px");
+    useEffect(() => {
+        console.log(
+            "%cWelcome to the console xD \n\n%cAll rights reserved Viktor A. Rattleff.",
+            "color: yellow; font-size: 15px",
+            "color: yellow; font-size: 10px"
+        );
+    }, []);
     return (
         <>
             <SnackbarProvider maxSnack={3}>
