@@ -39,7 +39,7 @@ function useTest() {
     };
 
     useEffect(() => {
-        getTestData().then(() => console.log("Data fetched"));
+        getTestData();
     }, []);
 
     return {
