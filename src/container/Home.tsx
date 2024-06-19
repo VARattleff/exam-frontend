@@ -40,7 +40,7 @@ function Home() {
                         align="center"
                         style={{ fontSize: "1rem" }}
                     >
-                        &#169; Made by Viktor Rattleff
+                        &#169; All rights reserved Viktor A. Rattleff
                         <Tooltip title="Github">
                             <IconButton
                                 component={Link}
