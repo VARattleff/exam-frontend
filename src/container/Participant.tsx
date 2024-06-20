@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useParticipant from "../hooks/useParticipant.tsx";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import { Button, Paper, TextField } from "@mui/material";
@@ -209,7 +209,7 @@ const countriesArr: TCountry[] = [
 ];
 
 function Participant() {
-    const { participants, isLoading, createParticipant } = useParticipant();
+    const { participants, isLoading, createParticipant, deleteParticipant } = useParticipant();
     const [searchText, setSearchText] = useState("");
     const [openPost, setOpenPost] = useState(false);
 
@@ -227,6 +227,10 @@ function Participant() {
         setOpenPost(false);
     };
 
+    const handleDelete = (id: number) => {
+        deleteParticipant(id);
+    };
+
     const columns = [
         { field: "fullName", headerName: "Full Name", width: 200 },
         { field: "age", headerName: "Age", width: 100 },
@@ -236,7 +240,20 @@ function Participant() {
         { field: "country", headerName: "Country", width: 150 },
         { field: "disciplines", headerName: "Disciplines", width: 200 },
         { field: "update", headerName: "viewDetails", width: 200 },
-        { field: "delete", headerName: "Delete", width: 200 }
+        {
+            field: "delete",
+            headerName: "Delete",
+            width: 200,
+            renderCell: (params: GridCellParams) => (
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDelete(params.row.id as number)}
+                >
+                    Delete
+                </Button>
+            ),
+        },
     ];
 
     const filteredParticipants = participants.filter(

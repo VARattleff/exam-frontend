@@ -23,7 +23,6 @@ function useParticipant() {
         try {
             const res = await Api.get("participants");
             setParticipants(res);
-            showSuccess("Participants loaded");
         } catch (error) {
             handleError(error);
         } finally {
@@ -46,10 +45,26 @@ function useParticipant() {
         }
     };
 
+    const deleteParticipant = async (id: number): Promise<void> => {
+        setIsLoading(true);
+        try {
+            await Api.delete('participants', id);
+            showSuccess("Participant deleted");
+            setParticipants((prevParticipants) =>
+                prevParticipants.filter((p) => p.id !== id)
+            );
+        } catch (error) {
+            handleError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return {
         participants,
         isLoading,
-        createParticipant
+        createParticipant,
+        deleteParticipant
     };
 }
 
