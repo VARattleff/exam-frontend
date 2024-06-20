@@ -4,10 +4,12 @@ import { CssBaseline } from "@mui/material";
 import NavBar from "./components/NavBar.tsx";
 import { Route, Routes } from "react-router-dom";
 import Home from "./container/Home.tsx";
-import TestContainer from "./container/TestContainer.tsx";
 import FallBack from "./container/FallBack.tsx";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
+import Discipline from "./container/Discipline.tsx";
+import Result from "./container/Result.tsx";
+import Participant from "./container/Participant.tsx";
 
 /**
  * App component.
@@ -32,8 +34,16 @@ function App() {
                             element={<Home />}
                         />
                         <Route
-                            path="/test"
-                            element={<TestContainer />}
+                            path="/discipline"
+                            element={<Discipline />}
+                        />
+                        <Route
+                            path="/results"
+                            element={<Result />}
+                        />
+                        <Route
+                            path="/participants"
+                            element={<Participant />}
                         />
                         <Route
                             path="/*"

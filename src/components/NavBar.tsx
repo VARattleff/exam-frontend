@@ -9,8 +9,11 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import ActivitiesIcon from "@mui/icons-material/LocalActivity";
+
 import { useNavigate } from "react-router-dom";
+import SportsHandballIcon from '@mui/icons-material/SportsHandball';
+import SportsScoreIcon from '@mui/icons-material/SportsScore';
+import GroupIcon from '@mui/icons-material/Group';
 
 /**
  * Navbar component.
@@ -47,19 +50,19 @@ export default function Navbar() {
                         component="span"
                         sx={{ color: theme.palette.primary.main }}
                     >
-                        V
+                        A
                     </Box>
-                    iktor
+                    thletics
                     <Box
                         component="span"
                         sx={{ color: theme.palette.primary.main }}
                     >
-                        R
+                        M
                     </Box>
-                    attleff
+                    eet
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Tooltip title="Hjem">
+                    <Tooltip title="Home">
                         <IconButton
                             component={Link}
                             to="/"
@@ -68,13 +71,31 @@ export default function Navbar() {
                             <HomeIcon />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="test">
+                    <Tooltip title="Discipline">
                         <IconButton
                             component={Link}
-                            to="/test"
+                            to="/discipline"
                             sx={{ color: theme.palette.text.primary }}
                         >
-                            <ActivitiesIcon />
+                            <SportsHandballIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Result">
+                        <IconButton
+                            component={Link}
+                            to="/results"
+                            sx={{ color: theme.palette.text.primary }}
+                        >
+                            <SportsScoreIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Participants">
+                        <IconButton
+                            component={Link}
+                            to="/participants"
+                            sx={{ color: theme.palette.text.primary }}
+                        >
+                            <GroupIcon />
                         </IconButton>
                     </Tooltip>
                 </Box>
