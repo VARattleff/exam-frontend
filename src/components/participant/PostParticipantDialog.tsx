@@ -22,7 +22,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { ChangeEvent, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner.tsx";
 
-type TPostParticipantDialogProbs = {
+type TPostParticipantDialogProps = {
     open: boolean;
     handleClose: () => void;
     createParticipant: (newParticipant: TParticipantCreateAndUpdate) => void;
@@ -45,7 +45,7 @@ function PostParticipantDialog({
     createParticipant,
     genderArr,
     countriesArr
-}: TPostParticipantDialogProbs) {
+}: TPostParticipantDialogProps) {
     const { discipline, isLoading: disciplineLoading } = useDiscipline();
 
     const [fullName, setFullName] = useState("");
@@ -102,6 +102,12 @@ function PostParticipantDialog({
         };
 
         createParticipant(newParticipant);
+        setFullName("");
+        setAge(0);
+        setGender("OTHER");
+        setCountry("DENMARK");
+        setSelectedDisciplines([]);
+        setAdjacentClub("");
         handleClose();
     };
 

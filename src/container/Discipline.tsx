@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useDiscipline from "../hooks/useDiscipline.tsx";
 import { Button, Paper, TextField, Typography } from "@mui/material";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
+import PostDisciplineDialog from "../components/discipline/PostDisciplineDialog.tsx";
+import { TResultsType } from "../types/discipline.type.ts";
+
+const  resultsTypeArr: TResultsType[] = ["POINTS" , "TIME" , "DISTANCE"]
 
 function Discipline() {
     const {
         discipline,
-        isLoading
+        isLoading,
+        createDiscipline
     } = useDiscipline();
 
     const [searchText, setSearchText] = useState('');
+    const [openPost, setOpenPost] = useState(false);
+
+    const handleOpenPost = () => {
+        setOpenPost(true);
+    }
+
+    const handleClose = () => {
+        setOpenPost(false);
+    }
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSearchText(e.target.value);
@@ -21,6 +35,22 @@ function Discipline() {
         { field: 'description', headerName: 'Description', width: 400 },
         { field: 'resultsType', headerName: 'Results Type', width: 200 },
         { field: 'participants', headerName: 'Participants', width: 600 },
+        {
+            field: "update",
+            headerName: "Update",
+            width: 200,
+            renderCell: (params: GridCellParams) => (
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                        console.log(params);
+                    }}
+                >
+                    Update
+                </Button>
+            )
+        },
     ];
 
     const filteredDisciplines = discipline.filter((discipline) =>
@@ -75,6 +105,7 @@ function Discipline() {
                     />
 
                     <Button
+                        onClick={handleOpenPost}
                         variant={"outlined"}
                     >
                         Create new Disciplin
@@ -96,6 +127,13 @@ function Discipline() {
                     />
                 </Paper>
             </Paper>
+            <PostDisciplineDialog
+                open={openPost}
+                handleClose={handleClose}
+                createDiscipline={createDiscipline}
+                resultsTypeArr={resultsTypeArr}
+
+            />
         </>
     );
 }

@@ -28,4 +28,4 @@ type TDisciplineCreateAndUpdate = {
     participants: { id: number }[];
 };
 
-export type { TDiscipline, TDisciplineCreateAndUpdate };
+export type { TDiscipline, TDisciplineCreateAndUpdate, TResultsType };
