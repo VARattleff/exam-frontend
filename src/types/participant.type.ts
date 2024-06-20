@@ -1,5 +1,5 @@
-type TGender = "MALE" | "FEMALE";
-type TAgeGroup = "KIDS" | "YOUTH" | "JUNIOR" | "ADULT" | "SENIOR"
+type TGender = "MALE" | "FEMALE" | "OTHER";
+type TAgeGroup = "KIDS" | "YOUTH" | "JUNIOR" | "ADULT" | "SENIOR";
 type TResultsType = "POINTS" | "TIME" | "DISTANCE";
 
 type TCountry =

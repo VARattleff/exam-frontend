@@ -4,7 +4,7 @@ import useSucces from "./useSucces.tsx";
 import useError from "./useError.tsx";
 import Api from "../utils/Api.tsx";
 
-function useDiscipline () {
+function useDiscipline() {
     const [discipline, setDiscipline] = useState<TDiscipline[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { showSuccess } = useSucces();
@@ -27,11 +27,10 @@ function useDiscipline () {
         }
     };
 
-
     return {
         discipline,
-        isLoading,
-    }
+        isLoading
+    };
 }
 
 export default useDiscipline;
