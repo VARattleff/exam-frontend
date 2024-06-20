@@ -22,6 +22,7 @@ type TDiscipline = {
 };
 
 type TDisciplineCreateAndUpdate = {
+    id?: number | null
     name: string;
     description: string;
     resultsType: TResultsType;

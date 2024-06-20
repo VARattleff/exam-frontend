@@ -108,7 +108,7 @@ function PutParticipantDialog({
             );
             return foundDiscipline ? foundDiscipline.id : -1;
         });
-        setSelectedDisciplines(selectedDisciplineIds);
+        setSelectedDisciplines(selectedDisciplineIds as number[]);
     };
 
     const handleAdjacentClubChange = (

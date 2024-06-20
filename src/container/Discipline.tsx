@@ -4,7 +4,9 @@ import useDiscipline from "../hooks/useDiscipline.tsx";
 import { Button, Paper, TextField, Typography } from "@mui/material";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import PostDisciplineDialog from "../components/discipline/PostDisciplineDialog.tsx";
-import { TResultsType } from "../types/discipline.type.ts";
+import { TDiscipline, TResultsType } from "../types/discipline.type.ts";
+
+import PutDisciplineDialog from "../components/discipline/PutDisciplineDialog.tsx";
 
 const  resultsTypeArr: TResultsType[] = ["POINTS" , "TIME" , "DISTANCE"]
 
@@ -12,18 +14,41 @@ function Discipline() {
     const {
         discipline,
         isLoading,
-        createDiscipline
+        createDiscipline,
+        updateDiscipline
     } = useDiscipline();
 
     const [searchText, setSearchText] = useState('');
     const [openPost, setOpenPost] = useState(false);
+    const [openPut, setOpenPut] = useState(false);
+
+    const defaultDiscipline: TDiscipline = {
+        id: 0,
+        name: "",
+        description: "",
+        resultsType: "POINTS",
+        participants: []
+    }
+
+    const [selectedDiscipline, setSelectedDiscipline] = useState<TDiscipline>(defaultDiscipline);
 
     const handleOpenPost = () => {
         setOpenPost(true);
     }
 
+    const handleOpenPut = (id: number) => {
+        const selectedRowDiscipline = discipline.find(
+            (discipline) => discipline.id === id);
+        if(selectedRowDiscipline){
+            setSelectedDiscipline(selectedRowDiscipline);
+            setOpenPut(true);
+
+        }
+    }
+
     const handleClose = () => {
         setOpenPost(false);
+        setOpenPut(false)
     }
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -43,9 +68,7 @@ function Discipline() {
                 <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => {
-                        console.log(params);
-                    }}
+                    onClick={() => handleOpenPut(params.row.id as number) }
                 >
                     Update
                 </Button>
@@ -132,8 +155,16 @@ function Discipline() {
                 handleClose={handleClose}
                 createDiscipline={createDiscipline}
                 resultsTypeArr={resultsTypeArr}
-
             />
+            <PutDisciplineDialog
+                open={openPut}
+                handleClose={handleClose}
+                updateDiscipline={updateDiscipline}
+                resultsTypeArr={resultsTypeArr}
+                selectedDiscipline={selectedDiscipline}
+            />
+
+
         </>
     );
 }

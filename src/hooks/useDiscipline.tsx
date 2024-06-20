@@ -49,9 +49,12 @@ function useDiscipline() {
         try {
             const res = await Api.put("disciplines", id, updatedDiscipline);
             showSuccess("Discipline updated");
-            setDiscipline((prevDiscipline) =>
-                prevDiscipline.map((p) => (p.id === id ? res : p))
-            );
+            setDiscipline((prevDiscipline) => {
+                const index = prevDiscipline.findIndex((d) => d.id === id);
+                const newDisciplines = [...prevDiscipline];
+                newDisciplines[index] = res;
+                return newDisciplines;
+            });
         } catch (error) {
             handleError(error);
         } finally {
