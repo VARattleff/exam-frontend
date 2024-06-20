@@ -2,7 +2,7 @@
  * This class is used to make API calls to the backend server.
  */
 class Api {
-    private static readonly BASE_URL = "http://localhost:8080/";
+    private static readonly BASE_URL = "http://localhost:8080/api/";
 
     /**
      * This method is used to make a GET request to the server.
