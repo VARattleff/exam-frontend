@@ -1,6 +1,6 @@
-type TGender = 'MALE' | 'FEMALE';
-type TAgeGroup = 'JUNIOR' | 'SENIOR';
-type TResultsType = 'POINTS' | 'TIME' | 'DISTANCE';
+type TGender = "MALE" | "FEMALE";
+type TAgeGroup = "KIDS" | "YOUTH" | "JUNIOR" | "ADULT" | "SENIOR"
+type TResultsType = "POINTS" | "TIME" | "DISTANCE";
 
 type TCountry =
     | "AFGHANISTAN"
@@ -201,16 +201,15 @@ type TCountry =
     | "ZAMBIA"
     | "ZIMBABWE";
 
-
-type TDiscipline = {
+type TDisciplineInParticipants = {
     id: number;
     name: string;
     description: string;
     resultsType: TResultsType;
     participants: [];
-}
+};
 
-type TParticipant =  {
+type TParticipant = {
     id: number;
     fullName: string;
     age: number;
@@ -218,7 +217,16 @@ type TParticipant =  {
     adjacentClub: string;
     ageGroup: TAgeGroup;
     country: TCountry;
-    disciplines: TDiscipline[];
-}
+    disciplines: TDisciplineInParticipants[];
+};
 
-export type { TParticipant };
+type TParticipantCreate = {
+    fullName: string;
+    age: number;
+    gender: TGender;
+    adjacentClub: string;
+    country: TCountry;
+    disciplines: { id: number }[];
+};
+
+export type { TParticipant, TParticipantCreate, TGender, TAgeGroup, TCountry };

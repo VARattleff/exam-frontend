@@ -11,9 +11,9 @@ import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { useNavigate } from "react-router-dom";
-import SportsHandballIcon from '@mui/icons-material/SportsHandball';
-import SportsScoreIcon from '@mui/icons-material/SportsScore';
-import GroupIcon from '@mui/icons-material/Group';
+import SportsHandballIcon from "@mui/icons-material/SportsHandball";
+import SportsScoreIcon from "@mui/icons-material/SportsScore";
+import GroupIcon from "@mui/icons-material/Group";
 
 /**
  * Navbar component.

@@ -22,14 +22,14 @@ function TestContainer() {
         isLoading: isTestDataLoading,
         createTestData
     } = useTest();
-    const [open, setOpen] = useState<boolean>(false);
+    const [openPostDialog, setOpenPostDialog] = useState<boolean>(false);
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenPostDialog(false);
     };
 
     const handleOpen = () => {
-        setOpen(true);
+        setOpenPostDialog(true);
     };
 
     return (
@@ -82,7 +82,7 @@ function TestContainer() {
                 </TableContainer>
             </Paper>
             <CreateTestDataDialog
-                open={open}
+                open={openPostDialog}
                 handleClose={handleClose}
                 createTestData={createTestData}
             />
