@@ -1,4 +1,4 @@
-import { TDiscipline } from "../types/discipline.type.ts";
+import { TDiscipline, TDisciplineCreateAndUpdate } from "../types/discipline.type.ts";
 import { useEffect, useState } from "react";
 import useSucces from "./useSucces.tsx";
 import useError from "./useError.tsx";
@@ -19,7 +19,6 @@ function useDiscipline() {
         try {
             const res = await Api.get("disciplines");
             setDiscipline(res);
-            showSuccess("Discipline loaded");
         } catch (error) {
             handleError(error);
         } finally {
@@ -27,9 +26,44 @@ function useDiscipline() {
         }
     };
 
+    const createDiscipline = async (
+        newDiscipline: TDisciplineCreateAndUpdate
+    ): Promise<void> => {
+        setIsLoading(true);
+        try {
+            const res = await Api.post("disciplines", newDiscipline);
+            showSuccess("Discipline created");
+            setDiscipline((prevDiscipline) => [...prevDiscipline, res]);
+        } catch (error) {
+            handleError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const updateDiscipline = async (
+        updatedDiscipline: TDisciplineCreateAndUpdate,
+        id: number
+    ): Promise<void> => {
+        setIsLoading(true);
+        try {
+            const res = await Api.put("disciplines", id, updatedDiscipline);
+            showSuccess("Discipline updated");
+            setDiscipline((prevDiscipline) =>
+                prevDiscipline.map((p) => (p.id === id ? res : p))
+            );
+        } catch (error) {
+            handleError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return {
         discipline,
-        isLoading
+        isLoading,
+        createDiscipline,
+        updateDiscipline
     };
 }
 
