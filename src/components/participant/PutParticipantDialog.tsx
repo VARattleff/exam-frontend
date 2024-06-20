@@ -1,53 +1,58 @@
+import { useEffect } from "react";
 import {
     TCountry,
     TGender,
     TParticipantCreateAndUpdate
 } from "../../types/participant.type.ts";
+import { ChangeEvent, useState } from "react";
 import {
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    Select,
     DialogTitle,
-    Grid,
-    TextField,
-    MenuItem,
-    SelectChangeEvent,
     FormControl,
-    InputLabel
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    TextField
 } from "@mui/material";
-import useDiscipline from "../../hooks/useDiscipline.tsx";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { ChangeEvent, useState } from "react";
+import useDiscipline from "../../hooks/useDiscipline.tsx";
 import LoadingSpinner from "../LoadingSpinner.tsx";
 
-type TPostParticipantDialogProbs = {
+type PutParticipantDialogProps = {
     open: boolean;
     handleClose: () => void;
-    createParticipant: (newParticipant: TParticipantCreateAndUpdate) => void;
+    updateParticipant: (
+        updatedParticipant: TParticipantCreateAndUpdate,
+        id: number
+    ) => void;
     genderArr: TGender[];
     countriesArr: TCountry[];
+    selectedParticipant: TParticipantCreateAndUpdate;
 };
 
 /**
- * Post participant dialog
+ * Put participant dialog
  * @param open
  * @param handleClose
- * @param createParticipant
+ * @param updateParticipant
  * @param genderArr
  * @param countriesArr
+ * @param selectedParticipant
  * @constructor
  */
-function PostParticipantDialog({
+function PutParticipantDialog({
     open,
     handleClose,
-    createParticipant,
+    updateParticipant,
     genderArr,
-    countriesArr
-}: TPostParticipantDialogProbs) {
-    const { discipline, isLoading: disciplineLoading } = useDiscipline();
-
+    countriesArr,
+    selectedParticipant
+}: PutParticipantDialogProps) {
     const [fullName, setFullName] = useState("");
     const [age, setAge] = useState(0);
     const [gender, setGender] = useState<TGender>("OTHER");
@@ -56,6 +61,20 @@ function PostParticipantDialog({
         []
     );
     const [adjacentClub, setAdjacentClub] = useState("");
+    const { discipline, isLoading: disciplineLoading } = useDiscipline();
+
+    useEffect(() => {
+        if (selectedParticipant) {
+            setFullName(selectedParticipant.fullName);
+            setAge(selectedParticipant.age);
+            setGender(selectedParticipant.gender);
+            setCountry(selectedParticipant.country);
+            setSelectedDisciplines(
+                selectedParticipant.disciplines.map((disc) => disc.id)
+            );
+            setAdjacentClub(selectedParticipant.adjacentClub);
+        }
+    }, [selectedParticipant]);
 
     const handleFullNameChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -81,8 +100,15 @@ function PostParticipantDialog({
         setCountry(e.target.value as TCountry);
     };
 
-    const handleDisciplinesChange = (e: SelectChangeEvent<number[]>) => {
-        setSelectedDisciplines(e.target.value as number[]);
+    const handleDisciplinesChange = (e: SelectChangeEvent<string[]>) => {
+        const selectedDisciplineNames = e.target.value as string[];
+        const selectedDisciplineIds = selectedDisciplineNames.map((name) => {
+            const foundDiscipline = discipline.find(
+                (disc) => disc.name === name
+            );
+            return foundDiscipline ? foundDiscipline.id : -1;
+        });
+        setSelectedDisciplines(selectedDisciplineIds);
     };
 
     const handleAdjacentClubChange = (
@@ -91,7 +117,7 @@ function PostParticipantDialog({
         setAdjacentClub(e.target.value as string);
     };
 
-    const handleCreate = () => {
+    const handleUpdate = () => {
         const newParticipant: TParticipantCreateAndUpdate = {
             fullName,
             age,
@@ -101,7 +127,7 @@ function PostParticipantDialog({
             adjacentClub
         };
 
-        createParticipant(newParticipant);
+        updateParticipant(newParticipant, selectedParticipant.id as number);
         handleClose();
     };
 
@@ -112,7 +138,7 @@ function PostParticipantDialog({
                 open={open}
                 onClose={handleClose}
             >
-                <DialogTitle>Create new participant</DialogTitle>
+                <DialogTitle>Update participant</DialogTitle>
                 <br />
                 <DialogContent>
                     <Grid
@@ -129,7 +155,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="fullName"
                                 value={fullName}
-                                onChange={(e) => handleFullNameChange(e)}
+                                onChange={handleFullNameChange}
                             />
                         </Grid>
                         <Grid
@@ -143,7 +169,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="age"
                                 value={age}
-                                onChange={(e) => handleAgeChange(e)}
+                                onChange={handleAgeChange}
                             />
                         </Grid>
 
@@ -158,7 +184,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="gender"
                                 value={gender}
-                                onChange={(e) => handleGenderChange(e)}
+                                onChange={handleGenderChange}
                             >
                                 {genderArr.map((gender) => (
                                     <MenuItem value={gender}>{gender}</MenuItem>
@@ -177,7 +203,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="country"
                                 value={country}
-                                onChange={(e) => handleCountryChange(e)}
+                                onChange={handleCountryChange}
                             >
                                 {countriesArr.map((country) => (
                                     <MenuItem value={country}>
@@ -207,13 +233,20 @@ function PostParticipantDialog({
                                         <OutlinedInput label="Disciplines" />
                                     }
                                     multiple
-                                    value={selectedDisciplines}
-                                    onChange={(e) => handleDisciplinesChange(e)}
+                                    value={selectedDisciplines.map((id) => {
+                                        const foundDiscipline = discipline.find(
+                                            (disc) => disc.id === id
+                                        );
+                                        return foundDiscipline
+                                            ? foundDiscipline.name
+                                            : "";
+                                    })}
+                                    onChange={handleDisciplinesChange}
                                 >
                                     {discipline.map((disc, index) => (
                                         <MenuItem
                                             key={index}
-                                            value={disc.id}
+                                            value={disc.name}
                                         >
                                             {disc.name}
                                         </MenuItem>
@@ -232,18 +265,18 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="adjacentClub"
                                 value={adjacentClub}
-                                onChange={(e) => handleAdjacentClubChange(e)}
+                                onChange={handleAdjacentClubChange}
                             />
                         </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+                    <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>
         </>
     );
 }
 
-export default PostParticipantDialog;
+export default PutParticipantDialog;

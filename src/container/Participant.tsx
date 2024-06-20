@@ -1,10 +1,11 @@
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useParticipant from "../hooks/useParticipant.tsx";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
-import { Button, Paper, TextField } from "@mui/material";
+import { Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import PostParticipantDialog from "../components/participant/PostParticipantDialog.tsx";
-import { TCountry, TGender } from "../types/participant.type.ts";
+import { TCountry, TGender, TParticipant } from "../types/participant.type.ts";
+import PutParticipantDialog from "../components/participant/PutParticipantDialog.tsx";
 
 const genderArr: TGender[] = ["MALE", "FEMALE", "OTHER"];
 
@@ -209,12 +210,42 @@ const countriesArr: TCountry[] = [
 ];
 
 function Participant() {
-    const { participants, isLoading, createParticipant, deleteParticipant } = useParticipant();
+    const {
+        participants,
+        isLoading,
+        createParticipant,
+        deleteParticipant,
+        updateParticipant
+    } = useParticipant();
     const [searchText, setSearchText] = useState("");
     const [openPost, setOpenPost] = useState(false);
+    const [openPut, setOpenPut] = useState(false);
 
+    const defaultParticipant: TParticipant = {
+        id: 0,
+        fullName: "",
+        age: 0,
+        gender: "OTHER",
+        ageGroup: "KIDS",
+        country: "DENMARK",
+        disciplines: [],
+        adjacentClub: ""
+    };
+
+    const [selectedParticipant, setSelectedParticipant] =
+        useState<TParticipant>(defaultParticipant);
     const handleOpenPost = () => {
         setOpenPost(true);
+    };
+
+    const handleOpenPut = (id: number) => {
+        const selectedRowParticipant = participants.find(
+            (participant) => participant.id === id
+        );
+        if (selectedRowParticipant) {
+            setSelectedParticipant(selectedRowParticipant);
+            setOpenPut(true);
+        }
     };
 
     const handleSearchChange = (
@@ -225,6 +256,7 @@ function Participant() {
 
     const handleClose = () => {
         setOpenPost(false);
+        setOpenPut(false);
     };
 
     const handleDelete = (id: number) => {
@@ -239,7 +271,20 @@ function Participant() {
         { field: "ageGroup", headerName: "Age Group", width: 150 },
         { field: "country", headerName: "Country", width: 150 },
         { field: "disciplines", headerName: "Disciplines", width: 200 },
-        { field: "update", headerName: "viewDetails", width: 200 },
+        {
+            field: "update",
+            headerName: "Update",
+            width: 200,
+            renderCell: (params: GridCellParams) => (
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleOpenPut(params.row.id as number)}
+                >
+                    Update
+                </Button>
+            )
+        },
         {
             field: "delete",
             headerName: "Delete",
@@ -247,13 +292,13 @@ function Participant() {
             renderCell: (params: GridCellParams) => (
                 <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     onClick={() => handleDelete(params.row.id as number)}
                 >
                     Delete
                 </Button>
-            ),
-        },
+            )
+        }
     ];
 
     const filteredParticipants = participants.filter(
@@ -303,6 +348,14 @@ function Participant() {
                     borderRadius: 2
                 }}
             >
+                <Typography sx={{ fontSize: "2em" }}>
+                    Participants list and Crud operations
+                </Typography>
+
+                <br />
+                <hr />
+                <br />
+
                 <div
                     style={{
                         display: "flex",
@@ -346,6 +399,14 @@ function Participant() {
                 createParticipant={createParticipant}
                 genderArr={genderArr}
                 countriesArr={countriesArr}
+            />
+            <PutParticipantDialog
+                open={openPut}
+                handleClose={handleClose}
+                updateParticipant={updateParticipant}
+                genderArr={genderArr}
+                countriesArr={countriesArr}
+                selectedParticipant={selectedParticipant}
             />
         </>
     );

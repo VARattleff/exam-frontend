@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type {
     TParticipant,
-    TParticipantCreate
+    TParticipantCreateAndUpdate
 } from "../types/participant.type.ts";
 import useSucces from "./useSucces.tsx";
 import useError from "./useError.tsx";
@@ -31,7 +31,7 @@ function useParticipant() {
     };
 
     const createParticipant = async (
-        newParticipant: TParticipantCreate
+        newParticipant: TParticipantCreateAndUpdate
     ): Promise<void> => {
         setIsLoading(true);
         try {
@@ -48,7 +48,7 @@ function useParticipant() {
     const deleteParticipant = async (id: number): Promise<void> => {
         setIsLoading(true);
         try {
-            await Api.delete('participants', id);
+            await Api.delete("participants", id);
             showSuccess("Participant deleted");
             setParticipants((prevParticipants) =>
                 prevParticipants.filter((p) => p.id !== id)
@@ -58,13 +58,35 @@ function useParticipant() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
+
+    const updateParticipant = async (
+        updatedParticipant: TParticipantCreateAndUpdate,
+        id: number
+    ): Promise<void> => {
+        setIsLoading(true);
+        try {
+            const res = await Api.put("participants", id, updatedParticipant);
+            showSuccess("Participant updated");
+            setParticipants((prevParticipants) => {
+                const index = prevParticipants.findIndex((p) => p.id === id);
+                const newParticipants = [...prevParticipants];
+                newParticipants[index] = res;
+                return newParticipants;
+            });
+        } catch (error) {
+            handleError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return {
         participants,
         isLoading,
         createParticipant,
-        deleteParticipant
+        deleteParticipant,
+        updateParticipant
     };
 }
 

@@ -220,7 +220,8 @@ type TParticipant = {
     disciplines: TDisciplineInParticipants[];
 };
 
-type TParticipantCreate = {
+type TParticipantCreateAndUpdate = {
+    id?: number | null;
     fullName: string;
     age: number;
     gender: TGender;
@@ -229,4 +230,10 @@ type TParticipantCreate = {
     disciplines: { id: number }[];
 };
 
-export type { TParticipant, TParticipantCreate, TGender, TAgeGroup, TCountry };
+export type {
+    TParticipant,
+    TParticipantCreateAndUpdate,
+    TGender,
+    TAgeGroup,
+    TCountry
+};
