@@ -1,69 +1,87 @@
-import { TDisciplineCreateAndUpdate, TResultsType } from "../../types/discipline.type.ts";
+import {
+    TDisciplineCreate,
+    TResultsType
+} from "../../types/discipline.type.ts";
 
 import {
     Button,
-    Dialog, DialogActions,
+    Dialog,
+    DialogActions,
     DialogContent,
-    DialogTitle, FormControl,
-    Grid, InputLabel, MenuItem, Select, SelectChangeEvent,
+    DialogTitle,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
     TextField
 } from "@mui/material";
 import useParticipant from "../../hooks/useParticipant.tsx";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import LoadingSpinner from "../LoadingSpinner.tsx";
-import  { ChangeEvent, useState } from "react";
-
+import { ChangeEvent, useState } from "react";
 
 type TPostDisciplineDialogProps = {
     open: boolean;
     handleClose: () => void;
-    createDiscipline: (newDiscipline: TDisciplineCreateAndUpdate) => Promise<void>;
+    createDiscipline: (newDiscipline: TDisciplineCreate) => Promise<void>;
     resultsTypeArr: TResultsType[];
 };
 
-function PostDisciplineDialog ({open, handleClose, createDiscipline, resultsTypeArr}: TPostDisciplineDialogProps) {
-
+function PostDisciplineDialog({
+    open,
+    handleClose,
+    createDiscipline,
+    resultsTypeArr
+}: TPostDisciplineDialogProps) {
     const { participants, isLoading: participantsLoading } = useParticipant();
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [resultsType, setResultsType] = useState<TResultsType>("POINTS");
-    const [selectedParticipants, setSelectedParticipants] = useState<number[]>([]);
+    const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
+        []
+    );
 
-    const handleDisciplineNameChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleDisciplineNameChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setName(e.target.value as string);
-    }
+    };
 
-    const handleSetDescription = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleSetDescription = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setDescription(e.target.value as string);
-    }
+    };
 
-    const handleResultsTypeChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleResultsTypeChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setResultsType(e.target.value as TResultsType);
-    }
+    };
 
     const handleParticipantsChange = (e: SelectChangeEvent<number[]>) => {
         setSelectedParticipants(e.target.value as number[]);
-    }
-
+    };
 
     const handleCreate = () => {
-        const newDiscipline: TDisciplineCreateAndUpdate = {
+        const newDiscipline: TDisciplineCreate = {
             name,
             description,
             resultsType,
-            participants: selectedParticipants.map(id => ({ id })),
+            participants: selectedParticipants.map((id) => ({ id }))
         };
 
         createDiscipline(newDiscipline);
-        setName('');
-        setDescription('');
-        setResultsType('POINTS');
+        setName("");
+        setDescription("");
+        setResultsType("POINTS");
         setSelectedParticipants([]);
 
         handleClose();
-    }
-
+    };
 
     return (
         <>
@@ -106,7 +124,6 @@ function PostDisciplineDialog ({open, handleClose, createDiscipline, resultsType
                             />
                         </Grid>
 
-
                         <Grid
                             item
                             xs={6}
@@ -121,7 +138,9 @@ function PostDisciplineDialog ({open, handleClose, createDiscipline, resultsType
                                 onChange={(e) => handleResultsTypeChange(e)}
                             >
                                 {resultsTypeArr.map((resultsType) => (
-                                    <MenuItem value={resultsType}>{resultsType}</MenuItem>
+                                    <MenuItem value={resultsType}>
+                                        {resultsType}
+                                    </MenuItem>
                                 ))}
                             </TextField>
                         </Grid>
@@ -147,7 +166,9 @@ function PostDisciplineDialog ({open, handleClose, createDiscipline, resultsType
                                     }
                                     multiple
                                     value={selectedParticipants}
-                                    onChange={(e) => handleParticipantsChange(e)}
+                                    onChange={(e) =>
+                                        handleParticipantsChange(e)
+                                    }
                                 >
                                     {participants.map((part, index) => (
                                         <MenuItem
@@ -160,7 +181,6 @@ function PostDisciplineDialog ({open, handleClose, createDiscipline, resultsType
                                 </Select>
                             </FormControl>
                         </Grid>
-
                     </Grid>
                 </DialogContent>
                 <DialogActions>

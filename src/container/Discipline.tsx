@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useDiscipline from "../hooks/useDiscipline.tsx";
 import { Button, Paper, TextField, Typography } from "@mui/material";
@@ -8,17 +8,13 @@ import { TDiscipline, TResultsType } from "../types/discipline.type.ts";
 
 import PutDisciplineDialog from "../components/discipline/PutDisciplineDialog.tsx";
 
-const  resultsTypeArr: TResultsType[] = ["POINTS" , "TIME" , "DISTANCE"]
+const resultsTypeArr: TResultsType[] = ["POINTS", "TIME", "DISTANCE"];
 
 function Discipline() {
-    const {
-        discipline,
-        isLoading,
-        createDiscipline,
-        updateDiscipline
-    } = useDiscipline();
+    const { discipline, isLoading, createDiscipline, updateDiscipline } =
+        useDiscipline();
 
-    const [searchText, setSearchText] = useState('');
+    const [searchText, setSearchText] = useState("");
     const [openPost, setOpenPost] = useState(false);
     const [openPut, setOpenPut] = useState(false);
 
@@ -28,38 +24,41 @@ function Discipline() {
         description: "",
         resultsType: "POINTS",
         participants: []
-    }
+    };
 
-    const [selectedDiscipline, setSelectedDiscipline] = useState<TDiscipline>(defaultDiscipline);
+    const [selectedDiscipline, setSelectedDiscipline] =
+        useState<TDiscipline>(defaultDiscipline);
 
     const handleOpenPost = () => {
         setOpenPost(true);
-    }
+    };
 
     const handleOpenPut = (id: number) => {
         const selectedRowDiscipline = discipline.find(
-            (discipline) => discipline.id === id);
-        if(selectedRowDiscipline){
+            (discipline) => discipline.id === id
+        );
+        if (selectedRowDiscipline) {
             setSelectedDiscipline(selectedRowDiscipline);
             setOpenPut(true);
-
         }
-    }
+    };
 
     const handleClose = () => {
         setOpenPost(false);
-        setOpenPut(false)
-    }
+        setOpenPut(false);
+    };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleSearchChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setSearchText(e.target.value);
     };
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 200 },
-        { field: 'description', headerName: 'Description', width: 400 },
-        { field: 'resultsType', headerName: 'Results Type', width: 200 },
-        { field: 'participants', headerName: 'Participants', width: 600 },
+        { field: "name", headerName: "Name", width: 200 },
+        { field: "description", headerName: "Description", width: 400 },
+        { field: "resultsType", headerName: "Results Type", width: 200 },
+        { field: "participants", headerName: "Participants", width: 600 },
         {
             field: "update",
             headerName: "Update",
@@ -68,21 +67,28 @@ function Discipline() {
                 <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleOpenPut(params.row.id as number) }
+                    onClick={() => handleOpenPut(params.row.id as number)}
                 >
                     Update
                 </Button>
             )
-        },
+        }
     ];
 
-    const filteredDisciplines = discipline.filter((discipline) =>
-        discipline.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        discipline.description.toLowerCase().includes(searchText.toLowerCase()) ||
-        discipline.resultsType.toLowerCase().includes(searchText.toLowerCase()) ||
-        discipline.participants.some((participant) =>
-            participant.fullName.toLowerCase().includes(searchText.toLowerCase())
-        )
+    const filteredDisciplines = discipline.filter(
+        (discipline) =>
+            discipline.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            discipline.description
+                .toLowerCase()
+                .includes(searchText.toLowerCase()) ||
+            discipline.resultsType
+                .toLowerCase()
+                .includes(searchText.toLowerCase()) ||
+            discipline.participants.some((participant) =>
+                participant.fullName
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+            )
     );
 
     const rows = filteredDisciplines.map((discipline) => ({
@@ -90,7 +96,9 @@ function Discipline() {
         name: discipline.name,
         description: discipline.description,
         resultsType: discipline.resultsType,
-        participants: discipline.participants.map((participant) => participant.fullName).join(", ")
+        participants: discipline.participants
+            .map((participant) => participant.fullName)
+            .join(", ")
     }));
 
     return (
@@ -124,7 +132,7 @@ function Discipline() {
                         label="Search"
                         variant="outlined"
                         value={searchText}
-                        onChange={e => handleSearchChange(e)}
+                        onChange={(e) => handleSearchChange(e)}
                     />
 
                     <Button
@@ -163,8 +171,6 @@ function Discipline() {
                 resultsTypeArr={resultsTypeArr}
                 selectedDiscipline={selectedDiscipline}
             />
-
-
         </>
     );
 }

@@ -1,4 +1,8 @@
-import { TDiscipline, TDisciplineCreateAndUpdate } from "../types/discipline.type.ts";
+import {
+    TDiscipline,
+    TDisciplineCreate,
+    TDisciplineUpdate
+} from "../types/discipline.type.ts";
 import { useEffect, useState } from "react";
 import useSucces from "./useSucces.tsx";
 import useError from "./useError.tsx";
@@ -27,7 +31,7 @@ function useDiscipline() {
     };
 
     const createDiscipline = async (
-        newDiscipline: TDisciplineCreateAndUpdate
+        newDiscipline: TDisciplineCreate
     ): Promise<void> => {
         setIsLoading(true);
         try {
@@ -39,10 +43,10 @@ function useDiscipline() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const updateDiscipline = async (
-        updatedDiscipline: TDisciplineCreateAndUpdate,
+        updatedDiscipline: TDisciplineUpdate,
         id: number
     ): Promise<void> => {
         setIsLoading(true);
@@ -60,7 +64,7 @@ function useDiscipline() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     return {
         discipline,

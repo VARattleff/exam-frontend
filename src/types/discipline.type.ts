@@ -21,12 +21,25 @@ type TDiscipline = {
     participants: TParticipantsInDiscipline[];
 };
 
-type TDisciplineCreateAndUpdate = {
-    id?: number | null
+type TDisciplineCreate = {
     name: string;
     description: string;
     resultsType: TResultsType;
     participants: { id: number }[];
 };
 
-export type { TDiscipline, TDisciplineCreateAndUpdate, TResultsType };
+type TDisciplineUpdate = {
+    id?: number | null;
+    name: string;
+    description: string;
+    resultsType: TResultsType;
+    participants: TParticipantsInDiscipline[];
+};
+
+export type {
+    TDiscipline,
+    TDisciplineCreate,
+    TResultsType,
+    TDisciplineUpdate,
+    TParticipantsInDiscipline
+};

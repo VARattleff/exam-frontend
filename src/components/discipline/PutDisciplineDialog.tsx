@@ -1,14 +1,21 @@
 import useParticipant from "../../hooks/useParticipant.tsx";
 import { ChangeEvent, useEffect, useState } from "react";
-import { TDisciplineCreateAndUpdate, TResultsType } from "../../types/discipline.type.ts";
+import {
+    TDisciplineUpdate,
+    TParticipantsInDiscipline,
+    TResultsType
+} from "../../types/discipline.type.ts";
 import {
     Button,
-    Dialog, DialogActions,
+    Dialog,
+    DialogActions,
     DialogContent,
     DialogTitle,
     FormControl,
-    Grid, InputLabel,
-    MenuItem, Select,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
     SelectChangeEvent,
     TextField
 } from "@mui/material";
@@ -18,18 +25,29 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 type TPostDisciplineDialogProps = {
     open: boolean;
     handleClose: () => void;
-    updateDiscipline: (updatedDiscipline: TDisciplineCreateAndUpdate, id: number) => Promise<void>;
+    updateDiscipline: (
+        updatedDiscipline: TDisciplineUpdate,
+        id: number
+    ) => Promise<void>;
     resultsTypeArr: TResultsType[];
-    selectedDiscipline: TDisciplineCreateAndUpdate;
+    selectedDiscipline: TDisciplineUpdate;
 };
 
-function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeArr, selectedDiscipline}: TPostDisciplineDialogProps) {
+function PutDisciplineDialog({
+    open,
+    handleClose,
+    updateDiscipline,
+    resultsTypeArr,
+    selectedDiscipline
+}: TPostDisciplineDialogProps) {
     const { participants, isLoading: participantsLoading } = useParticipant();
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [resultsType, setResultsType] = useState<TResultsType>("POINTS");
-    const [selectedParticipants, setSelectedParticipants] = useState<number[]>([]);
+    const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
+        []
+    );
 
     useEffect(() => {
         if (selectedDiscipline) {
@@ -44,37 +62,60 @@ function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeA
         }
     }, [selectedDiscipline]);
 
-
-    const handleDisciplineNameChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleDisciplineNameChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setName(e.target.value as string);
-    }
+    };
 
-    const handleSetDescription = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleSetDescription = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setDescription(e.target.value as string);
-    }
+    };
 
-    const handleResultsTypeChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleResultsTypeChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         setResultsType(e.target.value as TResultsType);
-    }
+    };
 
     const handleParticipantsChange = (e: SelectChangeEvent<number[]>) => {
         setSelectedParticipants(e.target.value as number[]);
-    }
+    };
 
-
-    const handleCreate = () => {
-        const updatedDiscipline: TDisciplineCreateAndUpdate = {
+    const handleUpdate = () => {
+        const updatedDiscipline: TDisciplineUpdate = {
             name,
             description,
             resultsType,
-            participants: selectedParticipants.map(id => ({ id })),
+            participants: selectedParticipants
+                .map((id) => {
+                    const participant = participants.find(
+                        (part) => part.id === id
+                    );
+                    return participant
+                        ? {
+                              id: participant.id,
+                              fullName: participant.fullName,
+                              age: participant.age,
+                              gender: participant.gender,
+                              adjacentClub: participant.adjacentClub,
+                              ageGroup: participant.ageGroup,
+                              country: participant.country,
+                              disciplines: []
+                          }
+                        : undefined;
+                })
+                .filter(
+                    (participant) => participant !== undefined
+                ) as TParticipantsInDiscipline[]
         };
 
         updateDiscipline(updatedDiscipline, selectedDiscipline.id as number);
 
         handleClose();
-    }
-
+    };
 
     return (
         <>
@@ -117,7 +158,6 @@ function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeA
                             />
                         </Grid>
 
-
                         <Grid
                             item
                             xs={6}
@@ -132,7 +172,9 @@ function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeA
                                 onChange={(e) => handleResultsTypeChange(e)}
                             >
                                 {resultsTypeArr.map((resultsType) => (
-                                    <MenuItem value={resultsType}>{resultsType}</MenuItem>
+                                    <MenuItem value={resultsType}>
+                                        {resultsType}
+                                    </MenuItem>
                                 ))}
                             </TextField>
                         </Grid>
@@ -158,7 +200,9 @@ function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeA
                                     }
                                     multiple
                                     value={selectedParticipants}
-                                    onChange={(e) => handleParticipantsChange(e)}
+                                    onChange={(e) =>
+                                        handleParticipantsChange(e)
+                                    }
                                 >
                                     {participants.map((part, index) => (
                                         <MenuItem
@@ -171,12 +215,11 @@ function PutDisciplineDialog ({open, handleClose, updateDiscipline, resultsTypeA
                                 </Select>
                             </FormControl>
                         </Grid>
-
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+                    <Button onClick={handleUpdate}>update</Button>
                 </DialogActions>
             </Dialog>
         </>
