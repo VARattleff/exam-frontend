@@ -14,6 +14,7 @@ type TResult = {
 };
 
 type TCreateResult = {
+    id?: number | null;
     participantId: number;
     disciplineId: number;
     resultDate: string;

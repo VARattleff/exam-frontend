@@ -234,6 +234,7 @@ function Participant() {
 
     const [selectedParticipant, setSelectedParticipant] =
         useState<TParticipant>(defaultParticipant);
+
     const handleOpenPost = () => {
         setOpenPost(true);
     };

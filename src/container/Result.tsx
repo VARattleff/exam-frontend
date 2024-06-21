@@ -4,15 +4,25 @@ import { Button, Paper, TextField, Typography } from "@mui/material";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import useResult from "../hooks/useResult.tsx";
 import PostResultDialog from "../components/result/PostResultDialog.tsx";
+import PutResultDialog from "../components/result/PutResultDialog.tsx";
 
 function Result() {
     const { result, isLoading, createResult, updateResult, deleteResult } =
         useResult();
     const [searchText, setSearchText] = useState("");
     const [openPost, setOpenPost] = useState(false);
+    const [openPut, setOpenPut] = useState(false);
+
+    const [selectedResultId, setSelectedResultId] = useState<number>(0);
+
+    const handleOpenPut = (id: number) => {
+        setSelectedResultId(id);
+        setOpenPut(true);
+    };
 
     const handleClose = () => {
         setOpenPost(false);
+        setOpenPut(false);
     };
 
     const handleOpenPost = () => {
@@ -21,19 +31,13 @@ function Result() {
 
     const handleDelete = (id: number) => {
         deleteResult(id);
-    }
-
-    console.log(updateResult);
+    };
 
     const handleSearchChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setSearchText(e.target.value);
     };
-
-    for (const discipline of result) {
-        console.log(discipline.ageGroup);
-    }
 
     const columns = [
         { field: "disciplineName", headerName: "Discipline Name", width: 200 },
@@ -56,7 +60,7 @@ function Result() {
                 <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => console.log(params.row.id)}
+                    onClick={() => handleOpenPut(params.row.id as number)}
                 >
                     Update
                 </Button>
@@ -179,6 +183,12 @@ function Result() {
                 open={openPost}
                 handleClose={handleClose}
                 createResult={createResult}
+            />
+            <PutResultDialog
+                open={openPut}
+                handleClose={handleClose}
+                updateResult={updateResult}
+                selectedResultId={selectedResultId}
             />
         </>
     );

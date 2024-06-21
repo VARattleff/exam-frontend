@@ -20,7 +20,6 @@ function useResult() {
         try {
             const res = await Api.get("results");
             setResult(res);
-            showSuccess("Results fetched");
         } catch (error) {
             handleError(error);
         } finally {
@@ -32,7 +31,6 @@ function useResult() {
         setIsLoading(true);
         try {
             const res = await Api.post("results", newResult);
-            showSuccess("Result created");
             setResult((prev) => (prev ? [...prev, res] : [res]));
         } catch (error) {
             handleError(error);
@@ -47,13 +45,13 @@ function useResult() {
     ): Promise<void> => {
         setIsLoading(true);
         try {
-            const { res: data } = await Api.put("results", id, updatedResult);
+            const res = await Api.put("results", id, updatedResult);
             showSuccess("Result updated");
             setResult((prev) => {
                 if (prev) {
                     const index = prev.findIndex((r) => r.id === id);
                     const newResults = [...prev];
-                    newResults[index] = data;
+                    newResults[index] = res;
                     return newResults;
                 }
                 return prev;

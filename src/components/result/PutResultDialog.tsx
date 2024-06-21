@@ -16,24 +16,27 @@ import { TCreateResult } from "../../types/result.type.ts";
 import useParticipant from "../../hooks/useParticipant.tsx";
 import { TResultsType } from "../../types/discipline.type.ts";
 
-type TPostResultDialogProps = {
+type TPutResultDialogProps = {
     open: boolean;
     handleClose: () => void;
-    createResult: (newResult: TCreateResult) => void;
+    updateResult: (updatedResult: TCreateResult, id: number) => void;
+    selectedResultId: number;
 };
 
 /**
- * Post result dialog
+ * Put result dialog
  * @param open
  * @param handleClose
- * @param createResult
+ * @param updateResult
+ * @param selectedResultId
  * @constructor
  */
-function PostResultDialog({
+function PustResultDialog({
     open,
     handleClose,
-    createResult
-}: TPostResultDialogProps) {
+    updateResult,
+    selectedResultId
+}: TPutResultDialogProps) {
     const { discipline, isLoading: disciplineLoading } = useDiscipline();
 
     const { participants, isLoading: participantsLoading } = useParticipant();
@@ -115,8 +118,8 @@ function PostResultDialog({
         setPoints(Number(e.target.value));
     };
 
-    const handleCreate = () => {
-        const newResult: TCreateResult = {
+    const handleUpdate = () => {
+        const updatedResult: TCreateResult = {
             participantId: selectedParticipant,
             disciplineId: selectedDiscipline,
             resultDate: resultDate,
@@ -129,7 +132,7 @@ function PostResultDialog({
             centimeters: centimeters
         };
 
-        createResult(newResult);
+        updateResult(updatedResult, selectedResultId as number);
 
         setSelectedParticipant(0);
         setSelectedDiscipline(0);
@@ -157,7 +160,7 @@ function PostResultDialog({
                 onClose={handleClose}
                 fullWidth
             >
-                <DialogTitle>Create new result</DialogTitle>
+                <DialogTitle>Update result</DialogTitle>
                 <br />
                 <DialogContent>
                     <Grid
@@ -362,12 +365,12 @@ function PostResultDialog({
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+                    <Button onClick={handleClose}>Update</Button>
+                    <Button onClick={handleUpdate}>Create</Button>
                 </DialogActions>
             </Dialog>
         </>
     );
 }
 
-export default PostResultDialog;
+export default PustResultDialog;
