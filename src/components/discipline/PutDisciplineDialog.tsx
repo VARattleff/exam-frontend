@@ -16,7 +16,6 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent,
     TextField
 } from "@mui/material";
 import LoadingSpinner from "../LoadingSpinner.tsx";
@@ -71,12 +70,6 @@ function PutDisciplineDialog({
         }
     }, [selectedDiscipline]);
 
-    const handleDisciplineNameChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setName(e.target.value as string);
-    };
-
     const handleSetDescription = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -87,10 +80,6 @@ function PutDisciplineDialog({
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setResultsType(e.target.value as TResultsType);
-    };
-
-    const handleParticipantsChange = (e: SelectChangeEvent<number[]>) => {
-        setSelectedParticipants(e.target.value as number[]);
     };
 
     const handleUpdate = () => {
@@ -150,8 +139,8 @@ function PutDisciplineDialog({
                                 fullWidth
                                 variant="outlined"
                                 name="name"
+                                disabled
                                 value={name}
-                                onChange={(e) => handleDisciplineNameChange(e)}
                             />
                         </Grid>
                         <Grid
@@ -210,9 +199,6 @@ function PutDisciplineDialog({
                                     }
                                     multiple
                                     value={selectedParticipants}
-                                    onChange={(e) =>
-                                        handleParticipantsChange(e)
-                                    }
                                 >
                                     {participants.map((part, index) => (
                                         <MenuItem
