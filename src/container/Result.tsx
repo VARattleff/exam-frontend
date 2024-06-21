@@ -19,8 +19,11 @@ function Result() {
         setOpenPost(true);
     };
 
+    const handleDelete = (id: number) => {
+        deleteResult(id);
+    }
+
     console.log(updateResult);
-    console.log(deleteResult);
 
     const handleSearchChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,8 +31,11 @@ function Result() {
         setSearchText(e.target.value);
     };
 
+    for (const discipline of result) {
+        console.log(discipline.ageGroup);
+    }
+
     const columns = [
-        { field: "id", headerName: "ID", width: 100 },
         { field: "disciplineName", headerName: "Discipline Name", width: 200 },
         { field: "resultsType", headerName: "Results Type", width: 200 },
         { field: "resultValue", headerName: "Result Value", width: 200 },
@@ -53,6 +59,20 @@ function Result() {
                     onClick={() => console.log(params.row.id)}
                 >
                     Update
+                </Button>
+            )
+        },
+        {
+            field: "delete",
+            headerName: "Delete",
+            width: 200,
+            renderCell: (params: GridCellParams) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleDelete(params.row.id as number)}
+                >
+                    Delete
                 </Button>
             )
         }
@@ -93,7 +113,7 @@ function Result() {
         resultValue: resultItem.resultValue,
         resultDate: resultItem.resultDate,
         participantName: resultItem.participantName,
-        ageGroupType: resultItem.ageGroup,
+        ageGroup: resultItem.ageGroup,
         gender: resultItem.gender,
         adjacentClub: resultItem.adjacentClub
     }));
