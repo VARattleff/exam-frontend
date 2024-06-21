@@ -137,6 +137,7 @@ function PutParticipantDialog({
             <Dialog
                 open={open}
                 onClose={handleClose}
+                fullWidth
             >
                 <DialogTitle>Update participant</DialogTitle>
                 <br />

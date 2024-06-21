@@ -33,6 +33,15 @@ type TPostDisciplineDialogProps = {
     selectedDiscipline: TDisciplineUpdate;
 };
 
+/**
+ * Put discipline dialog
+ * @param open
+ * @param handleClose
+ * @param updateDiscipline
+ * @param resultsTypeArr
+ * @param selectedDiscipline
+ * @constructor
+ */
 function PutDisciplineDialog({
     open,
     handleClose,
@@ -123,6 +132,7 @@ function PutDisciplineDialog({
             <Dialog
                 open={open}
                 onClose={handleClose}
+                fullWidth
             >
                 <DialogTitle>Create new Disciplin</DialogTitle>
                 <br />

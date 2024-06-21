@@ -117,6 +117,7 @@ function PostParticipantDialog({
             <Dialog
                 open={open}
                 onClose={handleClose}
+                fullWidth
             >
                 <DialogTitle>Create new participant</DialogTitle>
                 <br />
