@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import useDiscipline from "../../hooks/useDiscipline.tsx";
 
-import { ChangeEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner.tsx";
 import { TCreateResult } from "../../types/result.type.ts";
 import useParticipant from "../../hooks/useParticipant.tsx";
@@ -21,6 +21,7 @@ type TPutResultDialogProps = {
     handleClose: () => void;
     updateResult: (updatedResult: TCreateResult, id: number) => void;
     selectedResultId: number;
+    selectedRow: TCreateResult;
 };
 
 /**
@@ -29,94 +30,61 @@ type TPutResultDialogProps = {
  * @param handleClose
  * @param updateResult
  * @param selectedResultId
+ * @param selectedRow
  * @constructor
  */
 function PustResultDialog({
     open,
     handleClose,
     updateResult,
-    selectedResultId
+    selectedResultId,
+    selectedRow
 }: TPutResultDialogProps) {
     const { discipline, isLoading: disciplineLoading } = useDiscipline();
 
     const { participants, isLoading: participantsLoading } = useParticipant();
 
-    const [selectedParticipant, setSelectedParticipant] = useState<number>(0);
-    const [selectedDiscipline, setSelectedDiscipline] = useState<number>(0);
-    const [resultDate, setResultDate] = useState<TResultsType>("TIME");
+    const [selectedParticipant, setSelectedParticipant] = useState<number>(
+        selectedRow?.participantId || 0
+    );
+    const [selectedDiscipline, setSelectedDiscipline] = useState<number>(
+        selectedRow?.disciplineId || 0
+    );
+    const [resultDate, setResultDate] = useState<TResultsType>(
+        (selectedRow?.resultDate as TResultsType) || ("TIME" as TResultsType)
+    );
 
     //time
-    const [hour, setHour] = useState<number>(0);
-    const [minutes, setMinutes] = useState<number>(0);
-    const [seconds, setSeconds] = useState<number>(0);
-    const [hundredths, setHundredths] = useState<number>(0);
+    const [hour, setHour] = useState<number>(selectedRow?.hours || 0);
+    const [minutes, setMinutes] = useState<number>(selectedRow?.minutes || 0);
+    const [seconds, setSeconds] = useState<number>(selectedRow?.seconds || 0);
+    const [hundredths, setHundredths] = useState<number>(
+        selectedRow?.hundredths || 0
+    );
 
     //distance
-    const [meter, setMeter] = useState<number>(0);
-    const [centimeters, setCentimeters] = useState<number>(0);
+    const [meter, setMeter] = useState<number>(selectedRow?.meters || 0);
+    const [centimeters, setCentimeters] = useState<number>(
+        selectedRow?.centimeters || 0
+    );
 
     //points
-    const [points, setPoints] = useState<number>(0);
+    const [points, setPoints] = useState<number>(selectedRow?.points || 0);
 
-    const handleParticipantChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSelectedParticipant(Number(e.target.value));
-    };
-
-    const handleDesciplineChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSelectedDiscipline(Number(e.target.value));
-    };
-
-    const handleResultDataChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setResultDate(e.target.value as TResultsType);
-    };
-
-    const handleHourChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setHour(Number(e.target.value));
-    };
-
-    const handleMinutesChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setMinutes(Number(e.target.value));
-    };
-
-    const handleSecondsChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSeconds(Number(e.target.value));
-    };
-
-    const handleCundredthsChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setHundredths(Number(e.target.value));
-    };
-
-    const handleMeterChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setMeter(Number(e.target.value));
-    };
-
-    const handleCentimetersChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setCentimeters(Number(e.target.value));
-    };
-
-    const handlePointsChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setPoints(Number(e.target.value));
-    };
+    useEffect(() => {
+        if (open) {
+            setSelectedParticipant(selectedRow.participantId);
+            setSelectedDiscipline(selectedRow.disciplineId);
+            setResultDate(selectedRow.resultDate as TResultsType);
+            setHour(selectedRow.hours);
+            setMinutes(selectedRow.minutes);
+            setSeconds(selectedRow.seconds);
+            setHundredths(selectedRow.hundredths);
+            setMeter(selectedRow.meters);
+            setCentimeters(selectedRow.centimeters);
+            setPoints(selectedRow.points);
+        }
+    }, [open, selectedRow]);
 
     const handleUpdate = () => {
         const updatedResult: TCreateResult = {
@@ -178,7 +146,11 @@ function PustResultDialog({
                                 variant="outlined"
                                 name="participant"
                                 value={selectedParticipant}
-                                onChange={(e) => handleParticipantChange(e)}
+                                onChange={(e) =>
+                                    setSelectedParticipant(
+                                        Number(e.target.value)
+                                    )
+                                }
                             >
                                 {participants.map((par) => (
                                     <MenuItem value={par.id}>
@@ -200,7 +172,11 @@ function PustResultDialog({
                                 name="resultDate"
                                 InputLabelProps={{ shrink: true }}
                                 value={resultDate}
-                                onChange={(e) => handleResultDataChange(e)}
+                                onChange={(e) =>
+                                    setResultDate(
+                                        e.target.value as TResultsType
+                                    )
+                                }
                             />
                         </Grid>
 
@@ -215,7 +191,11 @@ function PustResultDialog({
                                 variant="outlined"
                                 name="discipline"
                                 value={selectedDiscipline}
-                                onChange={(e) => handleDesciplineChange(e)}
+                                onChange={(e) =>
+                                    setSelectedDiscipline(
+                                        Number(e.target.value)
+                                    )
+                                }
                             >
                                 {discipline.map((dic) => (
                                     <MenuItem value={dic.id}>
@@ -242,7 +222,9 @@ function PustResultDialog({
                                                 name="points"
                                                 value={points}
                                                 onChange={(e) =>
-                                                    handlePointsChange(e)
+                                                    setPoints(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -264,7 +246,9 @@ function PustResultDialog({
                                                 name="hour"
                                                 value={hour}
                                                 onChange={(e) =>
-                                                    handleHourChange(e)
+                                                    setHour(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -281,7 +265,9 @@ function PustResultDialog({
                                                 name="minutes"
                                                 value={minutes}
                                                 onChange={(e) =>
-                                                    handleMinutesChange(e)
+                                                    setMinutes(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -298,7 +284,9 @@ function PustResultDialog({
                                                 name="minutes"
                                                 value={seconds}
                                                 onChange={(e) =>
-                                                    handleSecondsChange(e)
+                                                    setSeconds(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -315,7 +303,9 @@ function PustResultDialog({
                                                 name="hundredths"
                                                 value={hundredths}
                                                 onChange={(e) =>
-                                                    handleCundredthsChange(e)
+                                                    setHundredths(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -337,7 +327,9 @@ function PustResultDialog({
                                                 name="meter"
                                                 value={meter}
                                                 onChange={(e) =>
-                                                    handleMeterChange(e)
+                                                    setMeter(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -354,7 +346,9 @@ function PustResultDialog({
                                                 name="centimeters"
                                                 value={centimeters}
                                                 onChange={(e) =>
-                                                    handleCentimetersChange(e)
+                                                    setCentimeters(
+                                                        Number(e.target.value)
+                                                    )
                                                 }
                                             />
                                         </Grid>
@@ -365,8 +359,8 @@ function PustResultDialog({
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Update</Button>
-                    <Button onClick={handleUpdate}>Create</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>
         </>

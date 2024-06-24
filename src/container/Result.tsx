@@ -1,25 +1,97 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Button, Paper, TextField, Typography } from "@mui/material";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import useResult from "../hooks/useResult.tsx";
 import PostResultDialog from "../components/result/PostResultDialog.tsx";
 import PutResultDialog from "../components/result/PutResultDialog.tsx";
+import { TCreateResult } from "../types/result.type.ts";
+import useParticipant from "../hooks/useParticipant.tsx";
+import useDiscipline from "../hooks/useDiscipline.tsx";
 
 function Result() {
     const { result, isLoading, createResult, updateResult, deleteResult } =
         useResult();
+
+    const { participants } = useParticipant();
+    const { discipline } = useDiscipline();
     const [searchText, setSearchText] = useState("");
     const [openPost, setOpenPost] = useState(false);
     const [openPut, setOpenPut] = useState(false);
 
     const [selectedResultId, setSelectedResultId] = useState<number>(0);
 
+    const [selectedRow, setSelectedRow] = useState<TCreateResult>({
+        id: null,
+        participantId: 0,
+        disciplineId: 0,
+        resultDate: "",
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        hundredths: 0,
+        meters: 0,
+        centimeters: 0,
+        points: 0
+    });
+
+    /* const handleOpenPut = (id: number) => {
+        setSelectedResultId(id);
+        setOpenPut(true);
+    };*/
+
     const handleOpenPut = (id: number) => {
+        const selectedResult = result.find((res) => res.id === id);
+        if (selectedResult) {
+            const selectedParticipant = participants.find(
+                (part) => part.fullName === selectedResult.participantName
+            );
+            const selectedDiscipline = discipline.find(
+                (disc) => disc.name === selectedResult.disciplineName
+            );
+
+            // This is a ts error
+            // eslint-disable-next-line prefer-const
+            let hours = 0,
+                minutes = 0,
+                seconds = 0,
+                hundredths = 0,
+                meters = 0,
+                centimeters = 0,
+                points = 0;
+
+            if (selectedResult.resultsType === "POINTS") {
+                points = parseInt(selectedResult.resultValue);
+            } else if (selectedResult.resultValue.endsWith("m")) {
+                meters = parseFloat(selectedResult.resultValue);
+            } else {
+                const timeParts = selectedResult.resultValue.split(/[:.]/);
+
+                hours = Number(timeParts[0]);
+                minutes = Number(timeParts[1]);
+                seconds = Number(timeParts[2]);
+                hundredths = Number(timeParts[3]);
+            }
+
+            if (selectedParticipant && selectedDiscipline) {
+                setSelectedRow({
+                    id: selectedResult.id,
+                    participantId: selectedParticipant.id,
+                    disciplineId: selectedDiscipline.id,
+                    resultDate: selectedResult.resultDate,
+                    hours: hours,
+                    minutes: minutes,
+                    seconds: seconds,
+                    hundredths: hundredths,
+                    meters: meters,
+                    centimeters: centimeters,
+                    points: points
+                });
+            }
+        }
         setSelectedResultId(id);
         setOpenPut(true);
     };
-
     const handleClose = () => {
         setOpenPost(false);
         setOpenPut(false);
@@ -31,12 +103,6 @@ function Result() {
 
     const handleDelete = (id: number) => {
         deleteResult(id);
-    };
-
-    const handleSearchChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSearchText(e.target.value);
     };
 
     const columns = [
@@ -153,7 +219,7 @@ function Result() {
                         label="Search"
                         variant="outlined"
                         value={searchText}
-                        onChange={(e) => handleSearchChange(e)}
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
 
                     <Button
@@ -189,6 +255,7 @@ function Result() {
                 handleClose={handleClose}
                 updateResult={updateResult}
                 selectedResultId={selectedResultId}
+                selectedRow={selectedRow}
             />
         </>
     );

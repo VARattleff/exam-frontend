@@ -2,7 +2,7 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useParticipant from "../hooks/useParticipant.tsx";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import { Button, Paper, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import PostParticipantDialog from "../components/participant/PostParticipantDialog.tsx";
 import { TCountry, TGender, TParticipant } from "../types/participant.type.ts";
 import PutParticipantDialog from "../components/participant/PutParticipantDialog.tsx";
@@ -249,12 +249,6 @@ function Participant() {
         }
     };
 
-    const handleSearchChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSearchText(e.target.value);
-    };
-
     const handleClose = () => {
         setOpenPost(false);
         setOpenPut(false);
@@ -368,7 +362,7 @@ function Participant() {
                         label="Search"
                         variant="outlined"
                         value={searchText}
-                        onChange={(e) => handleSearchChange(e)}
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
 
                     <Button

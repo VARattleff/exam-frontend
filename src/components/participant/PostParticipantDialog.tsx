@@ -13,13 +13,12 @@ import {
     Grid,
     TextField,
     MenuItem,
-    SelectChangeEvent,
     FormControl,
     InputLabel
 } from "@mui/material";
 import useDiscipline from "../../hooks/useDiscipline.tsx";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner.tsx";
 
 type TPostParticipantDialogProps = {
@@ -56,40 +55,6 @@ function PostParticipantDialog({
         []
     );
     const [adjacentClub, setAdjacentClub] = useState("");
-
-    const handleFullNameChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setFullName(e.target.value);
-    };
-
-    const handleAgeChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setAge(Number(e.target.value));
-    };
-
-    const handleGenderChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setGender(e.target.value as TGender);
-    };
-
-    const handleCountryChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setCountry(e.target.value as TCountry);
-    };
-
-    const handleDisciplinesChange = (e: SelectChangeEvent<number[]>) => {
-        setSelectedDisciplines(e.target.value as number[]);
-    };
-
-    const handleAdjacentClubChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setAdjacentClub(e.target.value as string);
-    };
 
     const handleCreate = () => {
         const newParticipant: TParticipantCreateAndUpdate = {
@@ -136,7 +101,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="fullName"
                                 value={fullName}
-                                onChange={(e) => handleFullNameChange(e)}
+                                onChange={(e) => setFullName(e.target.value)}
                             />
                         </Grid>
                         <Grid
@@ -150,7 +115,7 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="age"
                                 value={age}
-                                onChange={(e) => handleAgeChange(e)}
+                                onChange={(e) => setAge(Number(e.target.value))}
                             />
                         </Grid>
 
@@ -165,7 +130,9 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="gender"
                                 value={gender}
-                                onChange={(e) => handleGenderChange(e)}
+                                onChange={(e) =>
+                                    setGender(e.target.value as TGender)
+                                }
                             >
                                 {genderArr.map((gender) => (
                                     <MenuItem value={gender}>{gender}</MenuItem>
@@ -184,7 +151,9 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="country"
                                 value={country}
-                                onChange={(e) => handleCountryChange(e)}
+                                onChange={(e) =>
+                                    setCountry(e.target.value as TCountry)
+                                }
                             >
                                 {countriesArr.map((country) => (
                                     <MenuItem value={country}>
@@ -215,7 +184,11 @@ function PostParticipantDialog({
                                     }
                                     multiple
                                     value={selectedDisciplines}
-                                    onChange={(e) => handleDisciplinesChange(e)}
+                                    onChange={(e) =>
+                                        setSelectedDisciplines(
+                                            e.target.value as number[]
+                                        )
+                                    }
                                 >
                                     {discipline.map((disc, index) => (
                                         <MenuItem
@@ -239,7 +212,9 @@ function PostParticipantDialog({
                                 variant="outlined"
                                 name="adjacentClub"
                                 value={adjacentClub}
-                                onChange={(e) => handleAdjacentClubChange(e)}
+                                onChange={(e) =>
+                                    setAdjacentClub(e.target.value as string)
+                                }
                             />
                         </Grid>
                     </Grid>

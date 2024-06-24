@@ -1,5 +1,5 @@
 import useParticipant from "../../hooks/useParticipant.tsx";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     TDisciplineUpdate,
     TParticipantsInDiscipline,
@@ -69,18 +69,6 @@ function PutDisciplineDialog({
             }
         }
     }, [selectedDiscipline]);
-
-    const handleSetDescription = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setDescription(e.target.value as string);
-    };
-
-    const handleResultsTypeChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setResultsType(e.target.value as TResultsType);
-    };
 
     const handleUpdate = () => {
         const updatedDiscipline: TDisciplineUpdate = {
@@ -153,7 +141,9 @@ function PutDisciplineDialog({
                                 variant="outlined"
                                 name="description"
                                 value={description}
-                                onChange={(e) => handleSetDescription(e)}
+                                onChange={(e) =>
+                                    setDescription(e.target.value as string)
+                                }
                             />
                         </Grid>
 
@@ -168,7 +158,11 @@ function PutDisciplineDialog({
                                 variant="outlined"
                                 name="resultsType"
                                 value={resultsType}
-                                onChange={(e) => handleResultsTypeChange(e)}
+                                onChange={(e) =>
+                                    setResultsType(
+                                        e.target.value as TResultsType
+                                    )
+                                }
                             >
                                 {resultsTypeArr.map((resultsType) => (
                                     <MenuItem value={resultsType}>

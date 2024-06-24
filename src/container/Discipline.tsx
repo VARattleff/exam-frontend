@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import useDiscipline from "../hooks/useDiscipline.tsx";
 import { Button, Paper, TextField, Typography } from "@mui/material";
@@ -46,12 +46,6 @@ function Discipline() {
     const handleClose = () => {
         setOpenPost(false);
         setOpenPut(false);
-    };
-
-    const handleSearchChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setSearchText(e.target.value);
     };
 
     const columns = [
@@ -132,7 +126,7 @@ function Discipline() {
                         label="Search"
                         variant="outlined"
                         value={searchText}
-                        onChange={(e) => handleSearchChange(e)}
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
 
                     <Button
