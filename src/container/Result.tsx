@@ -57,6 +57,7 @@ function Result() {
                 seconds = 0,
                 hundredths = 0,
                 meters = 0,
+                // eslint-disable-next-line prefer-const
                 centimeters = 0,
                 points = 0;
 
