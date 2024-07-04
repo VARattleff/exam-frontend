@@ -152,8 +152,11 @@ function PustResultDialog({
                                     )
                                 }
                             >
-                                {participants.map((par) => (
-                                    <MenuItem value={par.id}>
+                                {participants.map((par, index) => (
+                                    <MenuItem
+                                        key={index}
+                                        value={par.id}
+                                    >
                                         {par.fullName}
                                     </MenuItem>
                                 ))}
@@ -197,8 +200,11 @@ function PustResultDialog({
                                     )
                                 }
                             >
-                                {discipline.map((dic) => (
-                                    <MenuItem value={dic.id}>
+                                {discipline.map((dic, index) => (
+                                    <MenuItem
+                                        key={index}
+                                        value={dic.id}
+                                    >
                                         {dic.name}
                                     </MenuItem>
                                 ))}

@@ -12,7 +12,7 @@ function useResult() {
     const { handleError } = useError();
 
     useEffect(() => {
-        getResults();
+        void getResults();
     }, []);
 
     const getResults = async (): Promise<void> => {

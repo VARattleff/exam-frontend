@@ -15,7 +15,7 @@ function useParticipant() {
     const { handleError } = useError();
 
     useEffect(() => {
-        getParticipants();
+        void getParticipants();
     }, []);
 
     const getParticipants = async (): Promise<void> => {

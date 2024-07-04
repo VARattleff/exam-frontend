@@ -15,7 +15,7 @@ function useDiscipline() {
     const { handleError } = useError();
 
     useEffect(() => {
-        getDiscipline();
+        void getDiscipline();
     }, []);
 
     const getDiscipline = async (): Promise<void> => {
